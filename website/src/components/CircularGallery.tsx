@@ -478,7 +478,7 @@ class App {
   ) {
     const defaultItems = [
       {
-        image: `https://picsum.photos/seed/1/800/600?grayscale`,
+        image: `/images/goodui.jpg`,
         text: 'Bridge'
       },
       {
@@ -656,7 +656,7 @@ interface CircularGalleryProps {
 
 export default function CircularGallery({
   items,
-  bend = -3,
+  bend = 0,
   textColor = '#ffffff',
   borderRadius = 0.05,
   font = 'bold 30px Figtree',

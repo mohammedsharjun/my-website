@@ -1,45 +1,119 @@
 "use client";
 import React from 'react';
-import VerticalBeamShowcase from './VerticalBeamShowcase';
 import AviationAccordion from './AviationAccordion';
-import { RainbowButton } from './ui/rainbow-button';
-import InnovationBanner from './InnovationBanner';
-import PricingPlans from './PricingPlans';
+import MetapicCreatorBenefits from './MetapicCreatorBenefits';
+import WhoWeAreSection from './WhoWeAreSection';
+import { HoverBorderGradient } from './ui/hover-border-gradient';
 import Footer from './Footer';
-import CircularGallery from './CircularGallery';
 import LightRays from './LightRays';
 import ArrowAnimation from './ArrowAnimation';
-import { Compare } from "../components/ui/compare";
+import MetapicBenefits from './MetapicBenefits';
+import SocialProof from './SocialProof';
+import CurvedLoop from './CurvedLoop';
+import Testimonials from './Testimonials';
+import ContactUs from './ContactUs';
+import WorkflowBanner from './WorkflowBanner';
+import OurValues from './OurValues';
 
-// const PlusIcon: React.FC<{ className?: string }> = ({ className }) => (
-//   <svg viewBox="0 0 48 48" className={className} aria-hidden>
-//     <path d="M22 4h4v40h-4zM4 22h40v4H4z" fill="currentColor" />
-//   </svg>
-// );
 const HeroSection: React.FC = () => {
+  const [active, setActive] = React.useState<'home' | 'about' | 'services' | 'blog' | 'contact' | 'Testimonial'>('home');
+  // Sliding indicator refs/state
+  const groupRef = React.useRef<HTMLDivElement | null>(null);
+  const homeRef = React.useRef<HTMLAnchorElement | HTMLButtonElement | null>(null);
+  const aboutRef = React.useRef<HTMLAnchorElement | null>(null);
+  const servicesRef = React.useRef<HTMLButtonElement | null>(null);
+  const blogRef = React.useRef<HTMLAnchorElement | null>(null);
+  const contactRef = React.useRef<HTMLAnchorElement | null>(null);
+  const TestimonialRef = React.useRef<HTMLAnchorElement | null>(null);
+  const [indicator, setIndicator] = React.useState<{ left: number; width: number }>({ left: 0, width: 0 });
+
+  const navItemClass = () => (
+    'px-4 py-2 rounded-full text-md font-medium text-white hover:text-white hover:bg-white/5 hover:ring-1 hover:ring-white/10 transition-all duration-300 ease-out'
+  );
+
+  // Update indicator position/size when active or on resize
+  React.useEffect(() => {
+    const map: Record<typeof active, HTMLElement | null> = {
+      home: homeRef.current as HTMLElement | null,
+      about: aboutRef.current as HTMLElement | null,
+      services: servicesRef.current as HTMLElement | null,
+      blog: blogRef.current as HTMLElement | null,
+      contact: contactRef.current as HTMLElement | null,
+      Testimonial: TestimonialRef.current as HTMLElement | null,
+    } as const;
+    const el = map[active];
+    const container = groupRef.current;
+    if (!el || !container) return;
+    const containerRect = container.getBoundingClientRect();
+    const rect = el.getBoundingClientRect();
+    setIndicator({ left: rect.left - containerRect.left, width: rect.width });
+  }, [active]);
+
+  React.useEffect(() => {
+    const onResize = () => {
+      // Recompute for current active
+      const container = groupRef.current;
+      if (!container) return;
+      const activeEl = (
+        active === 'home' ? homeRef.current :
+        active === 'about' ? aboutRef.current :
+        active === 'services' ? servicesRef.current :
+        active === 'blog' ? blogRef.current :
+        active === 'Testimonial' ? TestimonialRef.current :
+        contactRef.current
+      ) as HTMLElement | null;
+      if (!activeEl) return;
+      const containerRect = container.getBoundingClientRect();
+      const rect = activeEl.getBoundingClientRect();
+      setIndicator({ left: rect.left - containerRect.left, width: rect.width });
+    };
+    window.addEventListener('resize', onResize);
+    onResize();
+    return () => window.removeEventListener('resize', onResize);
+  }, [active]);
   return (
     <div className="min-h-screen w-full bg-[#140c14] relative overflow-hidden">
-      
       {/* Top Navbar */}
-      <header className=" absolute top-4 left-0 right-0 z-20 px-4">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex items-center justify-between rounded-2xl border border-white/20 bg-white/15 backdrop-blur-md px-4 py-2 shadow-lg">
-            {/* Logo */}
-            <a href="#" className="flex items-center gap-2">
-              <img src="/images/logo.png" alt="Logo" className="h-9 w-auto" />
+      <header className=" fixed top-2 left-0 right-0 z-20 px-4 ">
+        <div className="max-w-6xl mx-auto px-5 py-1.5 rounded-full backdrop-blur-xl border border-[#dea6fc]/45 bg-[#7D5D8EFF]/25 shadow-[0_0_30px_rgba(0,0,0,0.25)]">
+          <nav className="flex items-center justify-between">
+            {/* Left: Brand */}
+            <a href="#" className="flex items-center gap-3">
+              <img src="/images/logo.png" alt="Logo" className="h-8 w-8 rounded-md" />
+              <span className="text-white/90 font-semibold text-xl tracking-tight">Fikrova</span>
             </a>
-            {/* CTA */}
-            <RainbowButton asChild size="sm" className='text-white p-5 rounded-xl font-bold'>
-              <a href="#contact" >Book a Call</a>
-            </RainbowButton>
-          </div>
+
+            {/* Center: Navigation group */}
+            <div className="hidden md:flex items-center gap-3">
+              <div ref={groupRef} className="relative flex items-center gap-1 rounded-full px-1.5 py-1 ">
+                {/* Sliding indicator */}
+                <span
+                  className="pointer-events-none absolute top-1/2 -translate-y-1/2 h-[40px] rounded-full bg-black/20 ring-1 ring-white/15 transition-all duration-300 ease-out"
+                  style={{ left: indicator.left, width: indicator.width }}
+                />
+                <a ref={homeRef as any} className={navItemClass()} href="#home" onClick={() => setActive('home')}>Home</a>
+                <a ref={aboutRef as any} className={navItemClass()} href="#about" onClick={() => setActive('about')}>About</a>
+                <button ref={servicesRef as any} className={navItemClass() + ' flex items-center gap-1'} aria-label="Services" onClick={() => setActive('services')}>
+                  <span>Services</span>
+                </button>
+                <a ref={TestimonialRef as any} className={navItemClass()} href="#Testimonial" onClick={() => setActive('Testimonial')}>Testimonial</a>
+              </div>     
+            </div>
+                <HoverBorderGradient
+                  containerClassName="rounded-full"
+                  className="bg-black  font-bold px-6 py-2"
+                  as="button"
+                >
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e89eff] to-[#8aa8ff]">Contact</span>
+                </HoverBorderGradient>
+          </nav>
         </div>
       </header>
       
-      <div style={{ width: '100%', height: '1000px', position: 'absolute' }} >
-  <LightRays
-    raysOrigin="top-center"
-    raysColor='#cc5aa6'
+      <div style={{ width: '100%', height: '700px', position: 'absolute' }} >
+     <LightRays
+       raysOrigin="top-center"
+    raysColor='#FF00AA'
     raysSpeed={1.5}
     lightSpread={2.8}
     rayLength={2.5}
@@ -48,258 +122,208 @@ const HeroSection: React.FC = () => {
     noiseAmount={0.1}
     distortion={0.05}
     className="custom-rays"
-  />
+    />
 
       </div>
 
-      
-
-      
-
-      {/* Hero Content */}
+      {/* main Content */}
       <main className="relative z-10  max-w-screen mx-auto mt-30">
-        <div className="text-center max-w-7xl px-8 pt-8 py-3 mx-auto ">
-          <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
-            Turn Your <span className="text-[#fdbb51] font-black text-5xl md:text-6xl mx-2">in</span> LinkedIn Profile Into a Fundraising Machine
+        <div className="text-center flex flex-col items-center justify-center max-w-full px-8  mx-auto ">
+          {/* Workflow Banner */}
+          <WorkflowBanner />
+          
+          <h1 className=" md:text-[5rem] font-medium text-white leading-tighter ">
+          Your founders-first<span className="text-[#fdaa51]"> web </span>partner
           </h1>
-          <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
-            We help startups get investor meetings by making their LinkedIn clear, convincing, and ready to pitch.
+          <p className="text-xl text-[#aca1b7] mb-8 mx-auto">
+          We build conversion-driven business sites in 15 days, made to help you sell more—no fluff, just results.
           </p>
-          <RainbowButton size="lg" className='text-white font-bold'>Book a Free Audit →</RainbowButton>
+          
+          <div className="flex mt-4 gap-5">
+            
+            <HoverBorderGradient
+            containerClassName="rounded-full"
+            className=" bg-black font-semibold px-8 py-2.5"
+            as="button"
+          >
+            <span className="text-transparent text-lg bg-clip-text bg-gradient-to-r from-[#e89eff] to-[#8aa8ff]">Request a 15-Day Launch</span>
+          </HoverBorderGradient></div>
+          {/* Social Proof Section */}
+          <SocialProof />
+          
+          
         </div>
 
-         {/* Circular Gallery Section */}
-       
-         <div className="max-w-screen">
-           <div className="h-[420px] w-full rounded-2xl  overflow-hidden">
-             <CircularGallery />
-           </div>
-         </div>
-         
-         {/* Innovation banner (below main hero) */}
-         <InnovationBanner />
-         {/* Arrow Animation Section */}
-         <ArrowAnimation />
-
-        {/* Before/After Cards */}
-         {/*<div className="flex justify-center items-center gap-8 mt-16 relative"> */}
-          {/* Before Card */}
-          {/* <div className="relative transform -rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-300">
-            <div className="text-gray-400 text-sm font-semibold mb-2 text-center">Before</div>
-            <div className="bg-white border-2 border-blue-100 rounded-2xl p-2 w-full shadow-2xl relative">
-              <img src="/images/badui.jpg" alt="Before UI" className="w-180 h-80 object-cover rounded-xl" />
-            </div> */}
-            {/* Metric Boxes for Before */}
-            {/* <div className="absolute -top-2 left-5 bg-red-50 text-red-600 border border-red-200 rounded-lg px-3 py-2 text-xs font-semibold shadow-lg flex items-center gap-1">
-              <span className="text-lg font-bold">↓</span>
-              <span>Followers -25</span>
-            </div>
-            <div className="absolute top-5 -right-5 bg-red-50 text-red-600 border border-red-200 rounded-lg px-3 py-2 text-xs font-semibold shadow-lg flex items-center gap-1">
-              <span className="text-lg font-bold">↓</span>
-              <span>Profile views -14%</span>
-            </div>
-          </div> */}
-
-          {/* Transformation Arrow */}
-          {/* <div className="text-4xl text-blue-500 font-bold mx-4  -rotate-25">
-            <img src="/images/arroww.png" alt="Arrow" className="w-30 h-15" />
-          </div> */}
-
-          {/* After Card */}
-          {/* <div className="relative transform rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-300">
-            <div className="text-gray-400 text-sm font-semibold mb-2 text-center">After</div>
-            <div className="bg-white border-2 border-blue-100 rounded-2xl p-2 w-full shadow-2xl relative">
-              <img src="/images/goodui.jpg" alt="After UI" className="w-180 h-80 object-cover rounded-xl" />
-            </div> */}
-            {/* Metric Boxes for After */}
-            {/* <div className="absolute -top-2 left-5 bg-green-50 text-green-600 border border-green-200 rounded-lg px-3 py-2 text-xs font-semibold shadow-lg flex items-center gap-1">
-              <span className="text-lg font-bold">↑</span>
-              <span>Followers 2400+</span>
-            </div>
-            <div className="absolute top-5 -right-5 bg-green-50 text-green-600 border border-green-200 rounded-lg px-3 py-2 text-xs font-semibold shadow-lg flex items-center gap-1">
-              <span className="text-lg font-bold">↑</span>
-              <span>Profile views 300%</span>
+        {/* Curved Loop below CTA */}
+        <div className="mt-35 flex justify-center">
+            <div className="w-full max-w-screen h-30 flex items-center justify-center overflow-hidden">
+              <CurvedLoop 
+                marqueeText="TRUSTED BY 1000+ BUSINESSES      • PROVEN RESULTS       • 15-DAY DELIVERY       • "
+                speed={1}
+                className="text-white/40 text-[50px] w-screen"
+                curveAmount={0}
+                direction="left"
+                interactive={false}
+              />
             </div>
           </div>
-        </div> */}
-      </main>
+        {/* Who We Are Section */}
+        <WhoWeAreSection />
+        
+       
+       {/* Arrow Animation Section */}
+       <ArrowAnimation />
+       
+       
+       
+       {/* Chaotic Work UI Section */}
+       {/* <ChaoticWorkUI /> */}
+       
+        {/* Metapic Benefits Section */}
+        
+       <MetapicBenefits />
 
-    <section className="relative bg-[#140c14]">
-      {/* About Me Section */}
-      {/* <section className="relative z-10 py-20 ">
-      <div className="pointer-events-none absolute inset-0 opacity-70 [background:radial-gradient(600px_220px_at_6%_6%,#5b4bb133,transparent),radial-gradient(420px_220px_at_94%_18%,#5b4bb133,transparent),radial-gradient(520px_260px_at_50%_100%,#5b4bb122,transparent)]" />
-      {/* Decorative plus icons and glows 
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-4 top-36 text-[#45348f] opacity-60">
-          <PlusIcon className="h-20 w-20" />
-        </div>
-        <div className="absolute right-8 top-16 text-[#45348f] opacity-60">
-          <PlusIcon className="h-12 w-12" />
-        </div>
-        <div className="absolute -bottom-10 -right-8 h-64 w-64 rounded-full bg-[#7c5cf626] blur-2xl" />
-        <div className="absolute bottom-10 left-24 h-48 w-48 rounded-full bg-[#7c5cf61f] blur-2xl" />
-      </div>
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="flex items-center justify-between gap-16">
-            {/* Left Section - Text Content 
-            <div className="flex-1 max-w-2xl">
-              <h2 className="text-8xl font-bold text-white mb-8 leading-none">
-                Hi.
+       {/* Our Values Section */}
+       <OurValues />
+      
+
+       {/* <div className="relative px-20 z-10">
+        <div className=" flex justify-between items-center">
+        <div className="flex-col items-center gap-3">
+          <div className='flex items-center gap-3'>
+          <div className="w-2 h-2 bg-[#edcbff] rounded-full"></div>
+          <span className="text-[#edcbff] font-medium">Your Path Forward</span>
+                    </div>
+            <h2 className="text-4xl lg:text-5xl font-medium text-white leading-tight">
+              Projects Ongoing
               </h2>
-              
-              <div className="space-y-6 text-lg text-white leading-relaxed">
-                <p>
-                  I'm <span className="font-semibold">Mohammed Sharjun M</span>, a digital designer from the vibrant city of Amsterdam, 
-                  specializing in branding and web design, helping businesses worldwide to stand out with memorable visuals.
-                </p>
-                
-                <p>
-                  From crafting sleek logos to building full-scale brand identities, my primary focus lays on designs 
-                  that are both visually pleasing and differ from your competitors.
-                </p>
-                
-                <p>
-                  Outside of design, I love unique culinary experiences, reading books and playing the guitar.
-                </p>
-              </div>
-              
-              {/* CTA Button 
-              <RainbowButton size="lg" className="mt-8 inline-flex gap-3 text-white">
-                Say Hi
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7V17" />
-                </svg>
-              </RainbowButton>
-              
-              {/* Handwritten Annotation 
-              <div className="mt-12 relative">
-                <div className="absolute -left-4 -top-2 text-2xl font-handwriting text-white transform -rotate-12">
-                  Brand + Web Designer
+                    </div>
+                    
+        <div className="relative  z-10 text-right max-w-2xl">
+           <p className="text-2xl text-white leading-relaxed italic">
+           Let’s bring your vision to life and build a brand that’s unforgettable—driving growth, impact, and lasting success!
+              </p>
+                  </div>
                 </div>
-                <svg className="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+
+                      </div> */}
+      {/* Status Tags Section */}
+      {/* <Techstack /> */}
+      
+      
+
+       <div className="relative px-20 z-10">
+        <div className=" flex justify-between items-center">
+        <div className="flex-col items-center gap-3">
+          <div className='flex items-center gap-3'>
+          <div className="w-2 h-2 bg-[#edcbff] rounded-full"></div>
+          <span className="text-[#edcbff] font-medium">Your Path Forward</span>
+                      </div>
+            <h2 className="text-4xl lg:text-5xl font-medium text-white leading-tight">
+              Projects Ongoing
+              </h2>
+                    </div>
+                    
+        <div className="relative  z-10 text-right max-w-2xl">
+           <p className="text-2xl text-white leading-relaxed italic">
+           Let’s bring your vision to life and build a brand that’s unforgettable—driving growth, impact, and lasting success!
+              </p>
               </div>
             </div>
             
-            {/* Right Section - Profile Image 
-            <div className="flex-1 max-w-md">
-              <div className="relative">
-                {/* Profile Card Container 
-                <div className="relative bg-white border-4 border-[#a857ff] rounded-2xl p-2 shadow-lg">
-                  {/* Webcam Indicator 
-                  <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-black rounded-full"></div>
-                  
-                  {/* Profile Image 
-                  <div className="relative rounded-xl overflow-hidden">
-                    <img 
-                      src="/images/profile.png" 
-                      alt="Mohammed Sharjun" 
-                      className="w-full h-96 object-cover"
-                    />
-                    
-                    {/* Name Overlay 
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <div className="bg-black text-white px-4 py-2 rounded-lg">
-                        <span className="text-lg font-medium italic">Mohammed Sharjun</span>
-                      </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
+                    
+      {/* Metapic Creator Benefits Section */}
+      <MetapicCreatorBenefits />
 
-      {/* Vertical Beams Section (below About Me) */}
-      <VerticalBeamShowcase />
+           
+          
+    
+         
 
-      
+      </main>
 
-      {/* Before/After Cards */}
-         <div className="flex justify-center items-center gap-8 my-16 mx-20 relative"> 
-          {/* Before Card */}
-           <div className="relative transform -rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-300">
-            <div className="text-gray-400 text-sm font-semibold mb-2 text-center">Before</div>
-            <div className="bg-white border-2 border-blue-100 rounded-2xl p-2 w-full shadow-2xl relative">
-              <img src="/images/badui.jpg" alt="Before UI" className="w-180 h-80 object-cover rounded-xl" />
-            </div> 
-            {/* Metric Boxes for Before */}
-             <div className="absolute -top-2 left-5 bg-red-50 text-red-600 border border-red-200 rounded-lg px-3 py-2 text-xs font-semibold shadow-lg flex items-center gap-1">
-              <span className="text-lg font-bold">↓</span>
-              <span>Followers -25</span>
-            </div>
-            <div className="absolute top-5 -right-5 bg-red-50 text-red-600 border border-red-200 rounded-lg px-3 py-2 text-xs font-semibold shadow-lg flex items-center gap-1">
-              <span className="text-lg font-bold">↓</span>
-              <span>Profile views -14%</span>
-            </div>
-          </div> 
-
-          {/* Transformation Arrow */}
-           <div className="text-4xl text-blue-500 font-bold mx-4  -rotate-25">
-            <img src="/images/arroww.png" alt="Arrow" className="w-30 h-15" />
-          </div> 
-
-          {/* After Card */}
-           <div className="relative transform rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-300">
-            <div className="text-gray-400 text-sm font-semibold mb-2 text-center">After</div>
-            <div className="bg-white border-2 border-blue-100 rounded-2xl p-2 w-full shadow-2xl relative">
-              <img src="/images/goodui.jpg" alt="After UI" className="w-180 h-80 object-cover rounded-xl" />
-            </div> 
-            {/* Metric Boxes for After */}
-             <div className="absolute -top-2 left-5 bg-green-50 text-green-600 border border-green-200 rounded-lg px-3 py-2 text-xs font-semibold shadow-lg flex items-center gap-1">
-              <span className="text-lg font-bold">↑</span>
-              <span>Followers 2400+</span>
-            </div>
-            <div className="absolute top-5 -right-5 bg-green-50 text-green-600 border border-green-200 rounded-lg px-3 py-2 text-xs font-semibold shadow-lg flex items-center gap-1">
-              <span className="text-lg font-bold">↑</span>
-              <span>Profile views 300%</span>
-            </div>
-          </div>
-        </div> 
+    <section className="relative bg-[#140c14]">
 
       {/* Aviation Accordion Section */}
       <AviationAccordion />
+       {/* Testimonials */}
+      <Testimonials />
 
-      
-
-      {/* Icon Cluster Section */}
-      {/* <IconCluster /> */}
-
-      {/* Pricing Plans Section */}
-      <PricingPlans />
-
-      {/* Footer */}
-      <Footer /></section>
-      
-
-      {/* What I Do Section
-      <section className="relative z-10 py-20 bg-black">
-        <h2 className="text-center text-7xl font-bold text-white mb-8">
-          What I Do
-        </h2>
-        
-        {/* SVG Mask Effect Section 
-        <div className="relative bg-violet-900/25 rounded-3xl border border-white/30 backdrop-blur-sm mx-4 z-10">
-          <div className="flex h-[25rem] w-full items-center justify-center overflow-hidden">
-            <MaskContainer
-              revealText={
-                <p className="mx-auto max-w-5xl text-center text-5xl font-bold text-slate-800 dark:text-white">
-                  Websites for startups—delivered in 10 days. <br />
-                  Built with style, usability, and real results. <br />
-                  Work with a pro who respects your deadline.
+      {/* Tools & Tech Stack Section */}
+      {/* <section className="relative py-20 px-8 bg-[#140c14]">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex justify-center gap-15">
+            {/* Apple Card 
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-pink-500 via-purple-500 to-orange-500 rounded-2xl blur-sm opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative bg-black rounded-2xl p-8 w-80 h-64 flex flex-col items-center text-center">
+                <div className="w-16 h-16 mb-6 flex items-center justify-center">
+                  <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4">Apple</h3>
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  All my hardware is Apple. It's simple, reliable, and keeps my workflow smooth.
                 </p>
-              }
-              className="h-[25rem] w-full text-white dark:text-black"
-            >
-              Skip cookie-cutter sites—get a website that stands out with real results, fast. <br />
-              <span className="text-violet-500">5+</span> projects before 22 | <span className="text-violet-500">₹60K</span> first client win. <br />
-              Let's build something you'll be<span className="text-violet-500"> proud to show off (and maybe… brag about). 😁</span>
-            </MaskContainer>
+              </div>
+                </div>
+
+            {/* Figma Card 
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-sm opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative bg-black rounded-2xl p-8 w-80 h-64 flex flex-col items-center text-center">
+              <div className="bg-gray-200 rounded-2xl p-8">
+            <h2 className="text-3xl font-bold text-black mb-6">
+              Other Design Agencies
+            </h2>
+            <p className="text-black mb-8 leading-relaxed">
+              Other agencies often provide generic solutions with higher costs and limited flexibility, making them less adaptable to unique needs.
+            </p>
+            
+            <h3 className="text-lg font-semibold text-gray-700 mb-4">
+              Offerings
+            </h3>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-black">Generic, limited flexibility</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-black">Generic templates, minimal innovation</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-black">Delays due to complex processes</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-black">High costs, often with hidden fees</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-black">Limited, slow response time</span>
+              </li>
+            </ul>
+          </div>
+                </div>
+              </div>
+
+            
           </div>
         </div>
       </section> */}
+      
+
+      <ContactUs />
+
+      {/* Footer */}
+      <Footer />
+      
+      </section>
+
     </div>
   );
 };

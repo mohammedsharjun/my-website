@@ -1,116 +1,90 @@
 "use client";
 import React from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
-import { Check, ChevronRight } from 'lucide-react';
 import { cn } from '../lib/utils';
-
-
 
 type Row = {
   id: string;
-  left: string;
-  center: string;
-  right: string;
-  featured?: boolean;
+  question: string;
+  answer: string;
 };
 
 const rows: Row[] = [
   {
     id: 'r1',
-    left: 'Tailored invoicing for aviation',
-    center: 'API integration',
-    right: 'Seamless integration with your aviation ERP and accounting systems.',
+    question: 'Is my data safe with your platform?',
+    answer: 'Yes, we use enterprise-grade security measures including end-to-end encryption, regular security audits, and compliance with industry standards to ensure your data is completely safe and protected.',
   },
   {
     id: 'r2',
-    left: 'Client payment portal',
-    center: 'Hosted Invoice Page',
-    right: 'A secure portal for your clients to view and pay.',
-    featured: true,
+    question: 'What kind of customer support do you offer?',
+    answer: 'We provide 24/7 customer support through multiple channels including live chat, email, and phone. Our dedicated support team is always ready to help you with any questions or issues.',
   },
   {
     id: 'r3',
-    left: 'Secure global payments',
-    center: 'Bank transfers',
-    right: 'Swift and secure global payment settlements platform',
+    question: 'How does the pricing for your SaaS solution work?',
+    answer: 'Our pricing is based on a flexible tier system that scales with your needs. We offer monthly and annual plans with transparent pricing and no hidden fees. You can upgrade or downgrade at any time.',
   },
   {
     id: 'r4',
-    left: 'Quick receivable management',
-    center: 'Smart retries',
-    right: 'Intelligent retry system for any failed transactions.',
+    question: 'Can I cancel my subscription at any time?',
+    answer: 'Absolutely! You can cancel your subscription at any time with no cancellation fees. Your access will continue until the end of your current billing period, and you can reactivate anytime.',
   },
   {
     id: 'r5',
-    left: 'Reconciliation & reporting',
-    center: 'Custom reports',
-    right: 'Detailed reporting tailored for aviation business insights.',
+    question: 'Can I upgrade or downgrade my subscription plan?',
+    answer: 'Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately, and we prorate any billing differences to ensure you only pay for what you use.',
   },
 ];
 
-const Badge: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white px-3 py-1 text-xs font-semibold text-white/70 shadow-sm">
-    {children}
-  </span>
-);
-
 const AviationAccordion: React.FC = () => {
   return (
-    <section className="relative bg-[#140c14] py-20">
-
+    <section className="relative bg-[#140c14] py-10">
       <div className="mx-auto max-w-5xl px-6">
-        <div className="mb-8 text-center">
-          <h2 className="text-4xl font-extrabold text-white">
-            Automated invoicing for
-            <br />
-            <span className="text-white/60">the aviation industry</span>
-          </h2>
-          <div className="mt-4 flex items-center justify-center gap-3">
-            <Badge>Efficiency</Badge>
-            <Badge>Streamline</Badge>
-            <Badge>Automation</Badge>
+        {/* Header */}
+        
+        <div className="mb-12 text-center">
+
+          {/* FAQ Badge */}
+          <div className="mb-6">
+            <span className="inline-flex items-center px-6 py-1 rounded-full bg-[#250f27] text-[#cf52da] text-sm font-medium border border-[#cf52da]">
+              FAQ
+            </span>
           </div>
+          
+          {/* Main Heading */}
+          <h2 className="text-5xl font-medium text-white mb-2">
+            Some of the things you <br /> may want to know
+          </h2>
+          
+          {/* Subheading */}
+          <p className="text-lg text-gray-400">
+            We answered questions so you don't have to ask them.
+          </p>
         </div>
 
-        <Accordion type="single" collapsible className="flex flex-col gap-5">
+        {/* Accordion */}
+        <Accordion type="single" collapsible className="flex flex-col gap-3">
           {rows.map((row) => (
             <AccordionItem key={row.id} value={row.id} className="border-none">
               <AccordionTrigger
                 className={cn(
-                  'group relative w-full rounded-full px-6 py-6 text-base no-underline shadow-sm ring-1 ring-white/10 transition-colors',
-                  'data-[state=open]:bg-white data-[state=open]:text-white data-[state=open]:ring-white',
-                  '[&>svg]:hidden'
+                  'group relative w-full rounded-2xl px-6 py-5 text-left transition-all duration-200',
+                  'bg-[#250f27] text-white  hover:no-underline cursor-pointer hover:bg-[#231224]',
+                  'shadow-lg hover:shadow-xl',
+                  
                 )}
               >
-                <div className="grid w-full grid-cols-12 items-center gap-4">
-                  <div className="col-span-5 flex items-center gap-3">
-                    <span className={cn('flex h-6 w-6 items-center justify-center rounded-full ring-1 ring-white/15', 'group-data-[state=open]:ring-white/20')}>
-                      <Check className={cn('h-4 w-4 text-white/60', 'group-data-[state=open]:text-white')} />
-                    </span>
-                    <span className="font-semibold">{row.left}</span>
-                  </div>
-                  <div className="col-span-3 text-white/50 group-data-[state=open]:text-white/70">
-                    {row.center}
-                  </div>
-                  <div className="col-span-3 text-sm text-white/60 group-data-[state=open]:text-white/80">
-                    {row.right}
-                  </div>
-                  <div className="col-span-1 flex justify-end">
-                    <span className={cn(
-                      'flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-white/10 transition-colors',
-                      'group-data-[state=open]:bg-white group-data-[state=open]:text-white'
-                    )}>
-                      <ChevronRight className={cn('h-5 w-5 transition-transform duration-200', 'group-data-[state=open]:rotate-90')} />
-                    </span>
-                  </div>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="rounded-2xl border border-white/10 bg-purple-300/70 p-6 text-sm text-white/80">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris fermentum, libero vitae luctus
-                  efficitur, risus turpis laoreet dolor, ut placerat lorem augue at risus.
+                <div className="flex-col items-center justify-between w-full">
+                  <span className="font-medium text-xl text-white pr-4">{row.question}</span>
+                  <AccordionContent>
+                <div className=" mt-3 rounded-2xl text-white/50 text-[15px] leading-relaxed">
+                  {row.answer}
                 </div>
               </AccordionContent>
+                </div>
+              </AccordionTrigger>
+             
             </AccordionItem>
           ))}
         </Accordion>
