@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
-import  Lenis  from '@studio-freight/lenis'
+import Lenis from 'lenis'
 
 // Initialize Lenis for smooth scrolling
  const lenis = new Lenis({

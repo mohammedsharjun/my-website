@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { RainbowButton } from './ui/rainbow-button';
+
 
 const Card: React.FC<{
   title: string;
@@ -107,7 +107,7 @@ const PricingPlans: React.FC = () => {
           <div className="mx-auto flex max-w-4xl items-center justify-between gap-4 rounded-full bg-[linear-gradient(90deg,#3a2d6f,#5b4bb1)] p-2 pl-6 text-white shadow-[0_0_60px_rgba(124,58,237,0.25)] ring-1 ring-[#5b4bb1]">
             <span className="text-sm font-semibold">Grab It Fast to Get Special Price</span>
             <div className="shrink-0">
-              <RainbowButton className="text-white bg-[#131122]" size="lg">Book Demo Now!</RainbowButton>
+              <div className="text-white bg-[#131122]" >Book Demo Now!</div>
             </div>
           </div>
         </div>
