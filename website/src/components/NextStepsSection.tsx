@@ -27,13 +27,35 @@ const NextStepsSection: React.FC = () => {
               
               <div className="flex flex-col sm:flex-row gap-4">
                 {/* Schedule a call button */}
-                <button className="flex items-center justify-center gap-2 px-8 py-4 bg-gray-200 text-black font-medium rounded-xl hover:bg-gray-300 transition-colors duration-200">
+                <button 
+                  className="flex items-center justify-center gap-2 px-8 py-4 bg-gray-200 text-black font-medium rounded-xl hover:bg-gray-300 transition-colors duration-200"
+                  onClick={() => {
+                    const contactSection = document.getElementById('contact-section');
+                    if (contactSection) {
+                      contactSection.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                      });
+                    }
+                  }}
+                >
                   <span>Schedule a call</span>
                   <span className="text-lg">👋</span>
                 </button>
                 
                 {/* Get pricing info button */}
-                <button className="flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-black text-black font-medium rounded-xl hover:bg-gray-50 transition-colors duration-200">
+                <button 
+                  className="flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-black text-black font-medium rounded-xl hover:bg-gray-50 transition-colors duration-200"
+                  onClick={() => {
+                    const contactSection = document.getElementById('contact-section');
+                    if (contactSection) {
+                      contactSection.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                      });
+                    }
+                  }}
+                >
                   <span>Get pricing info</span>
                   <span className="text-lg">💰</span>
                 </button>

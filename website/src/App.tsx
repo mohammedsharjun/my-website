@@ -1,7 +1,7 @@
 import './App.css'
 import HeroSection from './components/HeroSection'
 
-import ClickSpark from './components/ClickSpark'
+import ClickSpark from './components/ui/ClickSpark'
 
 function App() {
   return (

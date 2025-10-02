@@ -1,32 +1,42 @@
 "use client";
 import React, { useRef, useEffect } from 'react';
+import { motion, useInView } from 'framer-motion';
 
 const MetapicCreatorBenefits: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
   useEffect(() => {
     if (videoRef.current) {
-      videoRef.current.playbackRate = 2; // Set to 2x speed (change as desired)
+      videoRef.current.playbackRate = 1; // Set to 2x speed (change as desired)
     }
   }, []);
   return (
-    <section className="relative py-10 px-8 ">
+    <section className="relative py-6 sm:py-8 md:py-10 px-4 sm:px-6 md:px-8" ref={sectionRef}>
       
-      <div className="max-w-[90vw] mx-auto p-12 bg-[#dea6fc] rounded-4xl">
+      <div className="max-w-[95vw] sm:max-w-[90vw] mx-auto p-6 sm:p-8 md:p-10 lg:p-12 bg-[#dea6fc] rounded-3xl sm:rounded-4xl">
       
     
-        <div className="grid lg:grid-cols-2 gap-16  items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-16 items-start">
           
           {/* Left Column - Tablet/Screen UI */}
-          <div className="relative">
-            {/* Decorative Frame Elements */}
-            {/* <div className="absolute -top-4 -left-4 w-16 h-20 bg-[#ffdda9] rounded-xl rounded-br-2xl transform rotate-0 opacity-80"></div>
-            <div className="absolute -bottom-4 -right-3 w-16 h-20 bg-[#ffdda9] rounded-xl rounded-br-2xl transform -rotate-0 opacity-80"></div>
-            <div className="absolute -top-4 -right-3 w-16 h-20 bg-[#ffdda9] rounded-xl rounded-br-2xl transform rotate-0 opacity-80"></div>
-            <div className="absolute -bottom-4 -left-4 w-16 h-20 bg-[#ffdda9] rounded-xl rounded-br-2xl transform -rotate-0 opacity-80"></div> */}
-            
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            style={{ willChange: 'opacity, transform' }}
+            className="relative flex flex-col"
+          >
+            {/* Title Above Video */}
+            <div className="mb-4 sm:mb-5 md:mb-6">
+              <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black text-center">
+                Projects in Progress
+              </h3>
+            </div>
+
             {/* Main Tablet/Screen */}
-            <div className="relative bg-black rounded-3xl w-[600px] h-[400px] p-4 shadow-2xl" style={{ aspectRatio: '5/4' }}>
+            <div className="relative bg-black rounded-2xl sm:rounded-3xl w-full max-w-[600px] mx-auto aspect-video sm:aspect-[6/4] p-3 sm:p-4 shadow-2xl">
               {/* Tablet Screen with Video */}
               <div className="w-full h-full bg-black rounded-2xl overflow-hidden relative">
                 {/* Video Container */}
@@ -51,24 +61,38 @@ const MetapicCreatorBenefits: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+
+            {/* Description Below Video */}
+            <div className="mt-4 sm:mt-5 md:mt-6 max-w-full sm:max-w-[600px] mx-auto">
+              <p className="text-sm sm:text-base md:text-lg text-black/70 text-center leading-relaxed px-2">
+                Watch your website come to life in real-time. Track every milestone as we build your conversion-driven site with complete transparency.
+              </p>
+            </div>
+          </motion.div>
 
           {/* Right Column - Benefits List */}
-          <div className="relative ">
-            {/* Decorative Frame Elements */}
-            {/* <div className="absolute -top-4 -left-4 w-16 h-20 bg-[#ffdda9] rounded-xl rounded-br-2xl transform rotate-0 opacity-80"></div>
-            <div className="absolute -bottom-4 -right-3 w-16 h-20 bg-[#ffdda9] rounded-xl rounded-br-2xl transform -rotate-0 opacity-80"></div>
-            <div className="absolute -top-4 -right-3 w-16 h-20 bg-[#ffdda9] rounded-xl rounded-br-2xl transform rotate-0 opacity-80"></div>
-            <div className="absolute -bottom-4 -left-4 w-16 h-20 bg-[#ffdda9] rounded-xl rounded-br-2xl transform -rotate-0 opacity-80"></div> */}
-            
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+            style={{ willChange: 'opacity, transform' }}
+            className="relative flex flex-col"
+          >
+            {/* Title Above Video */}
+            <div className="mb-4 sm:mb-5 md:mb-6">
+              <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black text-center">
+                Epic Automations
+              </h3>
+            </div>
+
             {/* Main Tablet/Screen */}
-            <div className="relative bg-black rounded-3xl w-[600px] h-[400px] p-4 shadow-2xl" style={{ aspectRatio: '5/4' }}>
+            <div className="relative bg-black rounded-2xl sm:rounded-3xl w-full max-w-[600px] mx-auto aspect-video sm:aspect-[6/4] p-3 sm:p-4 shadow-2xl">
               {/* Tablet Screen with Video */}
               <div className="w-full  h-full bg-black rounded-2xl overflow-hidden relative">
                 {/* Video Container */}
                 <video 
                   className="w-full h-full object-fill rounded-2xl"
-                  src="/videos/Projectongoingg.mp4"
+                  src="/videos/epic.mp4"
                   autoPlay 
                   muted 
                   loop 
@@ -88,7 +112,14 @@ const MetapicCreatorBenefits: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+
+            {/* Description Below Video */}
+            <div className="mt-4 sm:mt-5 md:mt-6 max-w-full sm:max-w-[600px] mx-auto">
+              <p className="text-sm sm:text-base md:text-lg text-black/70 text-center leading-relaxed px-2">
+                Smart automations that work 24/7. From lead capture to email sequences, we build systems that convert visitors into customers on autopilot.
+              </p>
+            </div>
+          </motion.div>
         </div>
         
 

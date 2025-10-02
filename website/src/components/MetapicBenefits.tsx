@@ -7,9 +7,15 @@ const MetapicBenefits: React.FC = () => {
   return (
     <section className="relative py-20 px-8 overflow-hidden">
       <div className="max-w-[90vw] bg-[#dea6fc] mx-auto rounded-4xl py-5 relative z-10">
-      <h2 className="text-4xl lg:text-6xl text-center font-medium text-black mb-6 leading-tight">
-              Our Services
-        </h2>
+      <div className='flex items-center justify-center gap-3'>
+          <div className="w-2 h-2 bg-[#333333] rounded-full"></div>
+             <span className="text-[#333333] font-medium">Your Path Forward</span>
+          </div>
+          <h2 className="text-4xl lg:text-6xl mb-5 font-medium text-center text-black leading-tight">
+            Projects Ongoing
+          </h2>
+            
+            
         <div className="flex flex-col lg:flex-row items-center gap-16">
           {/* Left Side - Services Animation */}
           <div className="flex-1 flex justify-center relative z-20">

@@ -6,19 +6,33 @@ import WhoWeAreSection from './WhoWeAreSection';
 import { HoverBorderGradient } from './ui/hover-border-gradient';
 import Footer from './Footer';
 import LightRays from './LightRays';
-import ArrowAnimation from './ArrowAnimation';
-import MetapicBenefits from './MetapicBenefits';
+import ArrowAnimation from './Process';
+
 import SocialProof from './SocialProof';
-import CurvedLoop from './CurvedLoop';
+import CurvedLoop from './ui/CurvedLoop';
 import Testimonials from './Testimonials';
 import ContactUs from './ContactUs';
 import WorkflowBanner from './WorkflowBanner';
 import OurValues from './OurValues';
-
+import TechStack from './techstack';
+import Servicesmarquee from './servicesmarquee';
+import ScrollReveal from './ScrollReveal';
+import { CircleArrowOutUpRight } from 'lucide-react';
 const HeroSection: React.FC = () => {
   const [active, setActive] = React.useState<'home' | 'about' | 'services' | 'blog' | 'contact' | 'Testimonial'>('home');
   // Sliding indicator refs/state
   const groupRef = React.useRef<HTMLDivElement | null>(null);
+
+  // Function to scroll to contact section
+  const scrollToContact = () => {
+    const contactSection = document.getElementById('contact-section');
+    if (contactSection) {
+      contactSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
   const homeRef = React.useRef<HTMLAnchorElement | HTMLButtonElement | null>(null);
   const aboutRef = React.useRef<HTMLAnchorElement | null>(null);
   const servicesRef = React.useRef<HTMLButtonElement | null>(null);
@@ -101,10 +115,12 @@ const HeroSection: React.FC = () => {
             </div>
                 <HoverBorderGradient
                   containerClassName="rounded-full"
-                  className="bg-black  font-bold px-6 py-2"
+                  className="bg-black flex font-bold pl-6 pr-3 py-2 items-center gap-1"
                   as="button"
+                  onClick={scrollToContact}
                 >
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e89eff] to-[#8aa8ff]">Contact</span>
+                  <span className=" text-[#e89eff] rounded-full p-1.5"><CircleArrowOutUpRight className="w-4 h-4 rotate-45" /></span>
                 </HoverBorderGradient>
           </nav>
         </div>
@@ -127,92 +143,100 @@ const HeroSection: React.FC = () => {
       </div>
 
       {/* main Content */}
-      <main className="relative z-10  max-w-screen mx-auto mt-30">
-        <div className="text-center flex flex-col items-center justify-center max-w-full px-8  mx-auto ">
+      <main className="relative z-10 max-w-screen mx-auto mt-20 sm:mt-24 md:mt-28 lg:mt-32 xl:mt-36">
+        <div className="text-center flex flex-col items-center justify-center max-w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 mx-auto">
           {/* Workflow Banner */}
           <WorkflowBanner />
           
-          <h1 className=" md:text-[5rem] font-medium text-white leading-tighter ">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[5rem] 2xl:text-[5.5rem] font-medium text-white leading-tight sm:leading-tight md:leading-tighter px-2">
           Your founders-first<span className="text-[#fdaa51]"> web </span>partner
           </h1>
-          <p className="text-xl text-[#aca1b7] mb-8 mx-auto">
+
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-[#aca1b7] mb-6 sm:mb-7 md:mb-6 mx-auto max-w-xs sm:max-w-md md:max-w-lg lg:max-w-6xl px-4">
           We build conversion-driven business sites in 15 days, made to help you sell more—no fluff, just results.
           </p>
           
-          <div className="flex mt-4 gap-5">
-            
+          <div className="flex flex-col sm:flex-row mt-3 sm:mt-4 md:mt-5 gap-3 sm:gap-4 md:gap-5 w-full sm:w-auto px-4 sm:px-0">
             <HoverBorderGradient
-            containerClassName="rounded-full"
-            className=" bg-black font-semibold px-8 py-2.5"
+              containerClassName="rounded-full w-full sm:w-auto"
+              className="bg-black font-semibold px-6 sm:px-7 md:px-6 md:pr-3 py-2 sm:py-2.5 text-center flex items-center gap-1"
             as="button"
-          >
-            <span className="text-transparent text-lg bg-clip-text bg-gradient-to-r from-[#e89eff] to-[#8aa8ff]">Request a 15-Day Launch</span>
-          </HoverBorderGradient></div>
+              onClick={scrollToContact}
+            >
+              <span className="text-transparent text-sm sm:text-base md:text-lg bg-clip-text bg-gradient-to-r from-[#e89eff] to-[#8aa8ff]">Request a 15-Day Launch</span><span className=" text-[#e89eff] rounded-full p-1.5"><CircleArrowOutUpRight className="w-4 h-4 rotate-45" /></span>
+            </HoverBorderGradient>
+          </div>
+
           {/* Social Proof Section */}
           <SocialProof />
-          
           
         </div>
 
         {/* Curved Loop below CTA */}
-        <div className="mt-35 flex justify-center">
-            <div className="w-full max-w-screen h-30 flex items-center justify-center overflow-hidden">
+        <div className="mt-16 sm:mt-20 md:mt-28 lg:mt-32 xl:mt-30 flex justify-center overflow-hidden">
+          <div className="w-full max-w-screen h-20 sm:h-24 md:h-28 lg:h-35 flex items-center justify-center overflow-hidden">
               <CurvedLoop 
                 marqueeText="TRUSTED BY 1000+ BUSINESSES      • PROVEN RESULTS       • 15-DAY DELIVERY       • "
                 speed={1}
-                className="text-white/40 text-[50px] w-screen"
+              className="text-white/40 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[55px] w-screen"
                 curveAmount={0}
                 direction="left"
                 interactive={false}
               />
             </div>
           </div>
-        {/* Who We Are Section */}
-        <WhoWeAreSection />
         
+        {/* Who We Are Section */}
+        <ScrollReveal>
+          <WhoWeAreSection />
+        </ScrollReveal>
+
        
        {/* Arrow Animation Section */}
+       <ScrollReveal>
        <ArrowAnimation />
+       </ScrollReveal>
        
        
        
        {/* Chaotic Work UI Section */}
        {/* <ChaoticWorkUI /> */}
        
-        {/* Metapic Benefits Section */}
-        
-       <MetapicBenefits />
+      <ScrollReveal>
+        <OurValues />
+      </ScrollReveal>
 
-       {/* Our Values Section */}
-       <OurValues />
+      <ScrollReveal>
+        <Servicesmarquee />
+      </ScrollReveal>
       
-
-       {/* <div className="relative px-20 z-10">
-        <div className=" flex justify-between items-center">
-        <div className="flex-col items-center gap-3">
-          <div className='flex items-center gap-3'>
-          <div className="w-2 h-2 bg-[#edcbff] rounded-full"></div>
-          <span className="text-[#edcbff] font-medium">Your Path Forward</span>
-                    </div>
-            <h2 className="text-4xl lg:text-5xl font-medium text-white leading-tight">
-              Projects Ongoing
+      <ScrollReveal>
+        <div className="relative px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 z-10 py-8 sm:py-10 md:py-12">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 lg:gap-8">
+            <div className="flex-col items-center gap-2 sm:gap-3">
+              <div className='flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3'>
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#edcbff] rounded-full"></div>
+                <span className="text-[#edcbff] font-medium text-sm sm:text-base">Your Path Forward</span>
+                      </div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-medium text-white leading-tight">
+                Projects Ongoing
               </h2>
                     </div>
                     
-        <div className="relative  z-10 text-right max-w-2xl">
-           <p className="text-2xl text-white leading-relaxed italic">
-           Let’s bring your vision to life and build a brand that’s unforgettable—driving growth, impact, and lasting success!
+            <div className="relative z-10 text-left lg:text-right max-w-full lg:max-w-xl xl:max-w-2xl">
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white leading-relaxed italic">
+                Let's bring your vision to life and build a brand that's unforgettable—driving growth, impact, and lasting success!
               </p>
-                  </div>
-                </div>
+            </div>
+                      </div>
+                    </div>
+      </ScrollReveal>
 
-                      </div> */}
-      {/* Status Tags Section */}
-      {/* <Techstack /> */}
-      
-      
-
-       <div className="relative px-20 z-10">
+      <ScrollReveal>
+        <MetapicCreatorBenefits />
+      </ScrollReveal>
+       {/* Our Values Section */}
+       {/* <div className="relative px-20 z-10">
         <div className=" flex justify-between items-center">
         <div className="flex-col items-center gap-3">
           <div className='flex items-center gap-3'>
@@ -221,22 +245,30 @@ const HeroSection: React.FC = () => {
                       </div>
             <h2 className="text-4xl lg:text-5xl font-medium text-white leading-tight">
               Projects Ongoing
-              </h2>
+          </h2>
                     </div>
                     
         <div className="relative  z-10 text-right max-w-2xl">
            <p className="text-2xl text-white leading-relaxed italic">
            Let’s bring your vision to life and build a brand that’s unforgettable—driving growth, impact, and lasting success!
               </p>
+                </div>
               </div>
-            </div>
-            
-                    </div>
-                    
-      {/* Metapic Creator Benefits Section */}
-      <MetapicCreatorBenefits />
 
-           
+                      </div> */}
+      
+      
+      
+
+       
+      <ScrollReveal>
+        <Testimonials />
+      </ScrollReveal>
+
+      {/* Tech Stack Section */}
+      <ScrollReveal>
+        <TechStack />
+      </ScrollReveal>
           
     
          
@@ -246,9 +278,11 @@ const HeroSection: React.FC = () => {
     <section className="relative bg-[#140c14]">
 
       {/* Aviation Accordion Section */}
+      <ScrollReveal>
       <AviationAccordion />
+      </ScrollReveal>
        {/* Testimonials */}
-      <Testimonials />
+      
 
       {/* Tools & Tech Stack Section */}
       {/* <section className="relative py-20 px-8 bg-[#140c14]">
@@ -315,12 +349,18 @@ const HeroSection: React.FC = () => {
           </div>
         </div>
       </section> */}
-      
 
-      <ContactUs />
+   
+      <ScrollReveal>
+        <div id="contact-section">
+          <ContactUs />
+        </div>
+      </ScrollReveal>
 
       {/* Footer */}
-      <Footer />
+      <ScrollReveal>
+        <Footer />
+      </ScrollReveal>
       
       </section>
 
