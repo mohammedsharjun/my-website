@@ -34,7 +34,7 @@ const WhoWeAreSection: React.FC = () => {
               </div>
               
               {/* Company Name */}
-              <span className="text-black text-2xl font-light lowercase">deeniac</span>
+              <span className="text-black text-2xl font-light lowercase">Fitrova</span>
               
             </div>
             <FeatureShowcase />

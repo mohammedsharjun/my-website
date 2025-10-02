@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import AviationAccordion from './AviationAccordion';
+import AviationAccordion from './Faq';
 import MetapicCreatorBenefits from './MetapicCreatorBenefits';
 import WhoWeAreSection from './WhoWeAreSection';
 import { HoverBorderGradient } from './ui/hover-border-gradient';
@@ -19,7 +19,7 @@ import Servicesmarquee from './servicesmarquee';
 import ScrollReveal from './ScrollReveal';
 import { CircleArrowOutUpRight } from 'lucide-react';
 const HeroSection: React.FC = () => {
-  const [active, setActive] = React.useState<'home' | 'about' | 'services' | 'blog' | 'contact' | 'Testimonial'>('home');
+  const [active, setActive] = React.useState<'home' | 'about' | 'services' | 'projects' | 'faq' | 'contact' | 'Testimonial'>('home');
   // Sliding indicator refs/state
   const groupRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -33,10 +33,74 @@ const HeroSection: React.FC = () => {
       });
     }
   };
+
+  // Function to scroll to FAQ section
+  const scrollToFaq = () => {
+    const faqSection = document.getElementById('faq-section');
+    if (faqSection) {
+      faqSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
+  // Function to scroll to Projects section
+  const scrollToProjects = () => {
+    const projectsSection = document.getElementById('projects-section');
+    if (projectsSection) {
+      projectsSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
+  // Function to scroll to Services section
+  const scrollToServices = () => {
+    const servicesSection = document.getElementById('services-section');
+    if (servicesSection) {
+      servicesSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
+  // Function to scroll to top of page (Home)
+  const scrollToTop = () => {
+    window.scrollTo({ 
+      top: 0, 
+      behavior: 'smooth' 
+    });
+  };
+
+  // Function to scroll to About section (WhoWeAreSection)
+  const scrollToAbout = () => {
+    const aboutSection = document.getElementById('about-section');
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
+  // Function to scroll to Testimonials section
+  const scrollToTestimonials = () => {
+    const testimonialsSection = document.getElementById('testimonials-section');
+    if (testimonialsSection) {
+      testimonialsSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
   const homeRef = React.useRef<HTMLAnchorElement | HTMLButtonElement | null>(null);
   const aboutRef = React.useRef<HTMLAnchorElement | null>(null);
   const servicesRef = React.useRef<HTMLButtonElement | null>(null);
-  const blogRef = React.useRef<HTMLAnchorElement | null>(null);
+  const projectsRef = React.useRef<HTMLButtonElement | null>(null);
+  const faqRef = React.useRef<HTMLButtonElement | null>(null);
   const contactRef = React.useRef<HTMLAnchorElement | null>(null);
   const TestimonialRef = React.useRef<HTMLAnchorElement | null>(null);
   const [indicator, setIndicator] = React.useState<{ left: number; width: number }>({ left: 0, width: 0 });
@@ -51,7 +115,8 @@ const HeroSection: React.FC = () => {
       home: homeRef.current as HTMLElement | null,
       about: aboutRef.current as HTMLElement | null,
       services: servicesRef.current as HTMLElement | null,
-      blog: blogRef.current as HTMLElement | null,
+      projects: projectsRef.current as HTMLElement | null,
+      faq: faqRef.current as HTMLElement | null,
       contact: contactRef.current as HTMLElement | null,
       Testimonial: TestimonialRef.current as HTMLElement | null,
     } as const;
@@ -72,7 +137,8 @@ const HeroSection: React.FC = () => {
         active === 'home' ? homeRef.current :
         active === 'about' ? aboutRef.current :
         active === 'services' ? servicesRef.current :
-        active === 'blog' ? blogRef.current :
+        active === 'projects' ? projectsRef.current :
+        active === 'faq' ? faqRef.current :
         active === 'Testimonial' ? TestimonialRef.current :
         contactRef.current
       ) as HTMLElement | null;
@@ -105,12 +171,24 @@ const HeroSection: React.FC = () => {
                   className="pointer-events-none absolute top-1/2 -translate-y-1/2 h-[40px] rounded-full bg-black/20 ring-1 ring-white/15 transition-all duration-300 ease-out"
                   style={{ left: indicator.left, width: indicator.width }}
                 />
-                <a ref={homeRef as any} className={navItemClass()} href="#home" onClick={() => setActive('home')}>Home</a>
-                <a ref={aboutRef as any} className={navItemClass()} href="#about" onClick={() => setActive('about')}>About</a>
-                <button ref={servicesRef as any} className={navItemClass() + ' flex items-center gap-1'} aria-label="Services" onClick={() => setActive('services')}>
-                  <span>Services</span>
+                <button ref={homeRef as any} className={navItemClass()} onClick={() => { setActive('home'); scrollToTop(); }}>
+                  Home
                 </button>
-                <a ref={TestimonialRef as any} className={navItemClass()} href="#Testimonial" onClick={() => setActive('Testimonial')}>Testimonial</a>
+                <button ref={aboutRef as any} className={navItemClass()} onClick={() => { setActive('about'); scrollToAbout(); }}>
+                  About
+                </button>
+                <button ref={servicesRef as any} className={navItemClass()} aria-label="Services" onClick={() => { setActive('services'); scrollToServices(); }}>
+                  Services
+                </button>
+                <button ref={projectsRef as any} className={navItemClass()} aria-label="Projects" onClick={() => { setActive('projects'); scrollToProjects(); }}>
+                  Projects
+                </button>
+                <button ref={faqRef as any} className={navItemClass()} aria-label="FAQ" onClick={() => { setActive('faq'); scrollToFaq(); }}>
+                  FAQ
+                </button>
+                <button ref={TestimonialRef as any} className={navItemClass()} onClick={() => { setActive('Testimonial'); scrollToTestimonials(); }}>
+                  Testimonial
+                </button>
               </div>     
             </div>
                 <HoverBorderGradient
@@ -188,7 +266,9 @@ const HeroSection: React.FC = () => {
         
         {/* Who We Are Section */}
         <ScrollReveal>
-          <WhoWeAreSection />
+          <div id="about-section">
+            <WhoWeAreSection />
+          </div>
         </ScrollReveal>
 
        
@@ -207,7 +287,9 @@ const HeroSection: React.FC = () => {
       </ScrollReveal>
 
       <ScrollReveal>
-        <Servicesmarquee />
+        <div id="services-section">
+          <Servicesmarquee />
+        </div>
       </ScrollReveal>
       
       <ScrollReveal>
@@ -233,7 +315,9 @@ const HeroSection: React.FC = () => {
       </ScrollReveal>
 
       <ScrollReveal>
-        <MetapicCreatorBenefits />
+        <div id="projects-section">
+          <MetapicCreatorBenefits />
+        </div>
       </ScrollReveal>
        {/* Our Values Section */}
        {/* <div className="relative px-20 z-10">
@@ -262,7 +346,9 @@ const HeroSection: React.FC = () => {
 
        
       <ScrollReveal>
-        <Testimonials />
+        <div id="testimonials-section">
+          <Testimonials />
+        </div>
       </ScrollReveal>
 
       {/* Tech Stack Section */}
@@ -279,7 +365,9 @@ const HeroSection: React.FC = () => {
 
       {/* Aviation Accordion Section */}
       <ScrollReveal>
-      <AviationAccordion />
+        <div id="faq-section">
+          <AviationAccordion />
+        </div>
       </ScrollReveal>
        {/* Testimonials */}
       

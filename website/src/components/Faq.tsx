@@ -37,7 +37,7 @@ const AviationAccordion: React.FC = () => {
   ];
 
   return (
-    <section className="relative py-20 px-8 bg-black overflow-hidden">
+    <section className="relative py-20 px-8 bg-transparent overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-pink-900/10 to-blue-900/20"></div>
       <div className="absolute inset-0 bg-black/60"></div>
@@ -45,16 +45,16 @@ const AviationAccordion: React.FC = () => {
       <div className="relative z-10 max-w-5xl mx-auto">
         <div className="text-center mb-16">
           <div className="inline-flex items-center justify-center mb-6">
-            <div className="bg-green-400 text-black px-3 py-1 rounded-full text-sm font-bold uppercase">
+            <div className="bg-purple-400 text-black px-3 py-1 rounded-full text-sm font-bold uppercase">
               FAQ
             </div>
           </div>
           
-          <h2 className="text-4xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-            Some of the things you may want to know
+          <h2 className="text-4xl lg:text-6xl font-medium text-white mb-3 leading-tighter">
+            Some of the things <br /> you may want to know
           </h2>
           
-          <p className="text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
             We answered questions so you don't have to ask them.
           </p>
         </div>
@@ -63,29 +63,35 @@ const AviationAccordion: React.FC = () => {
           {accordionItems.map((item, index) => (
             <div
               key={index}
-              className="group bg-gray-800/50 rounded-2xl overflow-hidden hover:bg-gray-800/70 transition-all duration-200"
+              className="group bg-[#5B2F72FF]/35 rounded-2xl overflow-hidden  transition-all duration-200"
             >
               <button
-                className="w-full px-6 py-6 text-left flex items-center justify-between hover:bg-gray-700/20 transition-all duration-200"
+                className="w-full px-6 py-6 text-left flex items-center justify-between transition-all duration-300 ease-in-out"
                 onClick={() => toggleItem(index)}
               >
-                <h3 className="text-lg font-medium text-white">
+                <h3 className="text-lg font-medium text-white transition-colors duration-300">
                   {item.title}
                 </h3>
                 <ChevronDownIcon 
-                  className={`w-5 h-5 text-gray-400 transition-all duration-200 ${
+                  className={`w-5 h-5 text-gray-400 transition-all duration-300 ease-in-out ${
                     openItems.includes(index) ? 'rotate-180' : ''
                   }`}
                 />
               </button>
               
-              {openItems.includes(index) && (
-                <div className="px-6 pb-6 animate-slideDown">
-                  <p className="text-gray-300 leading-relaxed">
-                    {item.content}
-                  </p>
+              <div className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                openItems.includes(index) ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+              }`}>
+                <div className="px-6 pb-6">
+                  <div className={`transition-all duration-300 ease-in-out ${
+                    openItems.includes(index) ? 'transform translate-y-0 opacity-100' : 'transform -translate-y-4 opacity-0'
+                  }`}>
+                    <p className="text-gray-300 leading-relaxed">
+                      {item.content}
+                    </p>
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
           ))}
         </div>

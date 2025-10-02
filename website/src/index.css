@@ -120,6 +120,21 @@ html, body {
   animation: slideDown 0.3s ease-out;
 }
 
+@keyframes fadeInFromTop {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-fadeInFromTop {
+  animation: fadeInFromTop 0.3s ease-out;
+}
+
 /* Custom scrollbar with gradient */
 ::-webkit-scrollbar {
   width: 15px;
