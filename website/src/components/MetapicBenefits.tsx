@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import Services from './Services';
+import Services from './servicess';
 
 const MetapicBenefits: React.FC = () => {
  
